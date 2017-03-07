@@ -1,0 +1,102 @@
+<html>
+	<head>
+		<title>Test Layout</title>
+	</head>
+		
+	<body>
+		<div id="wrapper">
+			
+		</div>
+		<script type='text/template' id='tpl'>
+			<div>
+				这是一个模板
+			</div>
+		</script>
+	<script src='../jquery.js'></script>
+	<script src='../Layout.js'></script>
+	<script>
+			
+	var Video = Layout.Model.extend({
+		url:'http://localhost:8000/test/video.php',
+		default:{
+			name:'iii'
+		},
+		parse:function(res){
+			var json = JSON.parse(res);
+			for (var i = 0; i < json.length; i++) {
+				json[i].title = 'aaa'
+			}
+			this.on('parse',function(){
+
+			})
+			return json;
+		},
+		init:function(){
+			this.name = 'aaa';
+			// this.on('init',function(){
+			// 	alert(2)
+			// })		
+		},
+		localize:true,
+
+	})
+
+	var video = new Video;	
+	video.add();
+	Video.fetch(function(res,data){
+		console.log(res)
+	})
+
+
+	var View = Layout.View.extend({
+		wrapper:'#wrapper',
+		tpl:'#tpl',
+		model:video,
+		events:{
+			'click #add':'add'
+		},
+		init:function(){
+			this.render()
+		},
+		add:function(){
+			console.log('add')
+		},
+
+	})
+
+	var v =new View;
+	$('#btn').click(function(){
+		video.set('name',"333");
+		console.log(video)
+	})
+	
+
+	var Router = Layout.Router.extend({
+		routes:{
+			"/user/:id":'userFn',
+			'/':'index'
+		},
+		userFn:function(){
+			console.log('user')
+		},
+		index:function(){
+			console.log('index')
+		}
+	})
+	var router = new Router();
+	Layout.history.start()
+	
+	var Controller = Layout.Controller.extend({
+		events:{
+
+		},
+		init:function(){
+
+		},
+	})
+	
+	
+	
+		</script>
+	</body>
+</html>
