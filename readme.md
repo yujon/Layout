@@ -1,8 +1,8 @@
-#Layout
+# Layout
 前端MVC框架，基于JQuery（Dom操作和ajax），内置对象/类：基础工具对象Utils，事件管理器Events，数据模型Model，视图管理器View，控制器Controller，历史记录管理器histroy，路由管理器Router。利用extend函数可对其进行自定义扩展
 ***
-###1.Utils 工具对象 
-####内部属性：<br>
+### 1.Utils 工具对象 
+#### 内部属性：<br>
 	unquid()：获一个唯一的标识符
 	fnName()：获取函数名
 	isWindow(obj)：判断是否为window对象
@@ -16,7 +16,7 @@
 	escape(str)：escape编码
 	unescape(str)：解码
 	extend([bool],ret,obj):将obj复制到ret,bool决定是否深复制，不填默认为false
-####可自定义扩展Utils上的属性（禁止直接覆盖该对象）：
+#### 可自定义扩展Utils上的属性（禁止直接覆盖该对象）：
 	如：
 	Layout.Utils.strTurnDate = function(str){ //将字符串转换成日期格式
         var re = /^(\d{4})\S(\d{1,2})\S(\d{1,2})$/;
@@ -27,8 +27,8 @@
         return dt;
     }
 
-###2.Events 事件管理器
-####内部属性：
+### 2.Events 事件管理器
+#### 内部属性：
 	handlers:一个数组，on绑定的对象回调函数管理器。
 	oncehandlers:一个数组，once绑定的对象回调函数管理器。
 	on（type,callback）：给对象绑定事件（原生或者自定义）和回调函数。优先级高于once
@@ -36,9 +36,9 @@
 	off(type,[callback1，callback2...])：移除事件的回调函数，没有指定是移除该事件的全部回调函数
 	trigger（type）：触犯某事件
 
-####内部事件:
+#### 内部事件:
 	change：model上的事件，当发生改变时触发
-####自定义事件:
+#### 自定义事件:
 	var obj = new Object();
 	var updateFn = function(){
 		console.log('obj has changed');
@@ -47,7 +47,7 @@
 	obj.trigger('update');//触发
 	obj.off('update');//移除
 	
-###3.sync 同步函数
+### 3.sync 同步函数
 	//基于jQuery的ajax方法
 	//重写
 	Layout.sync = function(type,url,data,success,error){
@@ -56,7 +56,7 @@
 	}
 	
 
-###4.Model 数据模型
+### 4.Model 数据模型
  
 模型，三层，最上一层为Model的原型，中间层为对Model扩展得到的类(构造函数)的原型，底层为模型实例<br>
 每个扩展的类有独立的对象管理器instances，管理通过自身实例化的对象<br>
@@ -64,7 +64,7 @@
 	1.底层：初始化函数init执行，事件管理器的回调函数管理器handlers，视图管理器views等<br>
 	2.中间层：扩展的属性，Model对象管理器instances等<br>
 	3. 顶层：Model原型方法以及事件管理器中定义的方法等<br>	
-####示例：
+#### 示例：
 	var Video = Layout.Model.extend({
 		url:'http://localhost:8000/test/video.php', //获取和保存数据的接口
 		default:{  //所有实例对象的默认值
@@ -106,7 +106,7 @@
 	//fetch()获得多条数据时会为每一条数据记录创建一个video对象并且添加到对象管理器中
 	
 
-####实例属性：
+#### 实例属性：
 	in_id:对象的唯一标识
 	newInstance:标识当前对象是否为新对象，保存时只保存本值为true的对象
 	mid:构造函数的唯一标识，用于本地存储key
@@ -133,19 +133,19 @@
 		local.get(key):获取键值
 		remove(key):移除键值对
 		clear():清除本地存储
-####类属性：
+#### 类属性：
 	find([in_id]):查找所有实例或者某个实例
 	fetch(success,error):传递俩个回调函数success(model,data),error(model,data)；model为构造函数的原型对象，data为返回的数据，从（本地或者）后台获取数据
 	save()：保存当前模型管理器中所有新对象的数据对象到后台（以及本地）
-####事件：
+#### 事件：
 	change:当实例的数据对象更改时触发
 	add:当对象的拷贝手动添加到instances触发
 	update：当把修改过的对象的拷贝添加到对象管理器时触发
 	remove:当移除对象时触发
 
 
-###5.view 视图
-####示例：
+### 5.view 视图
+#### 示例：
 	var View = Layout.View.extend({
 		wrapper:'#wrapper', //模板的容器以及当前视图的管理范围
 		tpl:'#tpl',  //模板,支持id,class,tag选择
@@ -162,7 +162,7 @@
 
 	})
 
-####内部属性：
+#### 内部属性：
 	wrapper:模板容器和视图管理范围
 	tpl:模板
 	model:若定义了本属性，视图模板将会与video数据模型绑定实现数据同步
@@ -171,16 +171,16 @@
 	events：模板的事件响应
 	init:初始化函数
 
-###6.Controller 控制器
+### 6.Controller 控制器
 定义代码逻辑以及和对页面的控制
-####内部属性
+#### 内部属性
 	el:定义控制器的作用范围
 	events:定义页面的事件响应规则（在el内有效)
 	init:初始化函数
 	
-###7.history 历史记录管理器
+### 7.history 历史记录管理器
 监听hash变化、控制页面的跳转
-####内部属性：
+#### 内部属性：
 	routeHandlers:回调函数管理器
 	router(route,callback):存储回调规则到routeHandlers
 	refresh():获取当前hash并根据路由规则跳转
@@ -188,13 +188,13 @@
 	start():跳转到url!#,并且监听hash变化根据规则跳转。app开始务必执行该函数
 
 	
-###Router 路由管理器
+### Router 路由管理器
 定义路由规则，解析并将其存储到history的routeHandlers以便于跳转
-####内部属性：
+#### 内部属性：
 	routes：定义路由规则
 	routeToRegExp(route):定义路由解析规则，可重写自定义规则
 	init:初始化函数
-####示例：
+#### 示例：
 	
 	var Router = Layout.Router.extend({
 		routes:{
